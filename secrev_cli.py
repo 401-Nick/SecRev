@@ -11,7 +11,7 @@ import google.generativeai as genai
 import google.generativeai.types as genai_types # For GenerationConfig
 
 # --- Configuration ---
-DEFAULT_MODEL_NAME: str = "gemini-1.5-flash-latest"
+DEFAULT_MODEL_NAME: str = "gemini-2.5-flash-preview-04-17"
 DEFAULT_CHUNK_SIZE_CHARS: int = 200000
 DEFAULT_MAX_TOTAL_CHARS_PROCESSED: int = 5000000
 DEFAULT_REPORTS_DIR_NAME: str = "secrev_reports"
