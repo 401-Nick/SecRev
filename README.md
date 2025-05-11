@@ -2,6 +2,8 @@
 
 ## **Important Notice**
 
+This was vibe-coded and a proof-of-concept rather than a production-ready tool. It may not work as expected and could potentially cause issues. Use at your own risk.
+
 This tool is intended for educational and research purposes only. Do not use it in production environments or for malicious activities.
 
 A command-line utility for AI-assisted security code reviews using Google's Gemini models.
