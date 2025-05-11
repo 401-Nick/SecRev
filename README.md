@@ -1,4 +1,5 @@
-# Secrev: Vibe-coded security auditing. (Don't be silly and use this for production plz.)
+# Secrev: Vibe-coded security auditing. 
+## (Don't be silly and use this for production purposes and don't use this maliciously plz)
 
 A command-line tool for AI-assisted security review of code using Google's Gemini models.
 
