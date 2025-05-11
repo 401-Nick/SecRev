@@ -39,7 +39,7 @@ A command-line tool for AI-assisted security review of code using Google's Gemin
 
 **3. Install with pipx:**
    Navigate to the directory with secrev.py and pyproject.toml, then run:
-   
+
    ```pipx install .```
 
    This makes secrev available as a command.
@@ -50,26 +50,29 @@ secrev needs your Google API Key. Provide it in one of these ways:
 
 1.  **CLI Argument:**
     Run:
-    secrev -d . --api-key YOUR_API_KEY
+
+    ```secrev -d . --api-key YOUR_API_KEY```
 
 2.  **Environment Variable:**
     Set the GOOGLE_API_KEY environment variable:
-    Example for bash/zsh: export GOOGLE_API_KEY="YOUR_API_KEY"
-    Then run:
-    secrev -d .
+    Example for bash/zsh: 
+    
+    ```export GOOGLE_API_KEY="YOUR_API_KEY"``` Then run: ```secrev -d .```
 
 3.  **File named .env:**
     Create a file named .env in your current directory with the content:
-    GOOGLE_API_KEY="YOUR_API_KEY"
+
+    ```GOOGLE_API_KEY="YOUR_API_KEY"```
 
 ## Usage Guide
 
 **Command Structure:**
-secrev -d <directory_to_scan> [options]
+```secrev -d <directory_to_scan> [options]```
 
 **Example:**
 Scan the current directory:
-secrev -d .
+
+```secrev -d .```
 
 **Key Options:**
 
