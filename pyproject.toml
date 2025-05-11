@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "secrev"
+version = "0.0.1" 
+authors = [
+    { name="401_Nick" },
+]
+description = "AI-Powered Code Security Review Tool"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Environment :: Console",
+    "Topic :: Security",
+    "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = [
+    "python-dotenv",
+    "google-generativeai"
+]
+
+[project.scripts]
+secrev = "secrev_cli:main"
