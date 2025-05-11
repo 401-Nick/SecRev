@@ -1,103 +1,117 @@
-# Secrev: Vibe-coded security auditing. 
-## (Don't be silly and use this for production purposes and don't use this maliciously plz)
+# SecRev: AI-Assisted Security Auditing
 
-A command-line tool for AI-assisted security review of code using Google's Gemini models.
+## **Important Notice**
 
-**Disclaimer:** This tool is an *aid* and not a substitute for human review or dedicated security tools. Findings require verification.
+This tool is intended for educational and research purposes only. Do not use it in production environments or for malicious activities.
+
+A command-line utility for AI-assisted security code reviews using Google's Gemini models.
+
+**Disclaimer:** SecRev is an *aid* and not a replacement for human expertise or dedicated security tools. All findings must be independently verified.
+
+---
 
 ## Prerequisites
 
-*   Python 3.8+
-*   pipx
-*   Google API Key (from Google AI Studio at https://aistudio.google.com/app/apikey)
+- Python 3.8+
+- pipx
+- Google API Key (available from [Google AI Studio](https://aistudio.google.com/app/apikey))
+
+---
 
 ## Installation
 
-**1. Install pipx (if you haven't):**
-   Follow official instructions available at https://pipx.pypa.io/stable/installation/
+1. **Clone the repository:**
+    ```bash
+    git clone https://github.com/401-Nick/SecRev.git
+    cd SecRev
+    ```
 
-**2. Prepare for Local Installation:**
-   If you have the secrev_cli.py script, verify file exists or create a file named pyproject.toml in the *same directory* with this content:
+2. **Install pipx (if not already installed):**
+    Follow the [official pipx installation guide](https://pipx.pypa.io/stable/installation/).
 
-   ```
-   [build-system]
-   requires = ["setuptools>=61.0"]
-   build-backend = "setuptools.build_meta"
+3. **Install SecRev using pipx:**
+    ```bash
+    pipx install .
+    ```
 
-   [project]
-   name = "secrev"
-   version = "0.1.0"
-   description = "AI-Powered Code Security Reviewer using Google Gemini"
-   requires-python = ">=3.8"
-   dependencies = [
-       "google-generativeai",
-       "python-dotenv"
-   ]
+    This makes the `secrev` command globally available.
 
-   [project.scripts]
-   secrev = "secrev_cli:main"
-   ```
+---
 
-**3. Install with pipx:**
-   Navigate to the directory with secrev.py and pyproject.toml, then run:
+## Configuration: Setting Up Your API Key
 
-   ```pipx install .```
+SecRev requires a Google API Key. You can provide it in one of the following ways:
 
-   This makes secrev available as a command.
+1. **CLI Argument:**
+    ```bash
+    secrev -d . --api-key YOUR_API_KEY
+    ```
 
-## Configuration: API Key
+2. **Environment Variable:**
+    ```bash
+    export GOOGLE_API_KEY="YOUR_API_KEY"
+    secrev -d .
+    ```
 
-secrev needs your Google API Key. Provide it in one of these ways:
+3. **.env File:**
+    Create a `.env` file in your working directory with the following content:
+    ```plaintext
+    GOOGLE_API_KEY="YOUR_API_KEY"
+    ```
 
-1.  **CLI Argument:**
-    Run:
-
-    ```secrev -d . --api-key YOUR_API_KEY```
-
-2.  **Environment Variable:**
-    Set the GOOGLE_API_KEY environment variable:
-    Example for bash/zsh: 
-    
-    ```export GOOGLE_API_KEY="YOUR_API_KEY"``` Then run: ```secrev -d .```
-
-3.  **File named .env:**
-    Create a file named .env in your current directory with the content:
-
-    ```GOOGLE_API_KEY="YOUR_API_KEY"```
+---
 
 ## Usage Guide
 
-**Command Structure:**
-```secrev -d <directory_to_scan> [options]```
+### **Basic Command Structure**
+```bash
+secrev -d <directory_to_scan> [options]
+```
 
-**Example:**
+### **Example Usage**
 Scan the current directory:
+```bash
+secrev -d .
+```
 
-```secrev -d .```
+### **Key Options**
+- `-d, --directory DIRECTORY`: (Required) Directory to scan.
+- `-m, --model MODEL`: Specify the Gemini model (default: `gemini-1.5-flash-latest`).
+- `-k, --api-key API_KEY`: Provide your Google API Key.
+- `-o, --output-file-base OUTPUT_FILE_BASE`: Base name for output files (e.g., `scan_results`).
+- `--reports-dir DIR_NAME`: Directory for saving reports (default: `./secrev_reports`).
+- `--include-extensions .ext1,.ext2`: Comma-separated extensions to include (overrides defaults).
+- `--exclude-extensions .ext1,.ext2`: Comma-separated extensions to exclude.
+- `--exclude-files name1,pattern2`: Comma-separated file names/patterns to exclude.
+- `--chunk-size CHARS`: Maximum characters per chunk sent to AI (default: `200000`).
+- `-y, --yes`: Skip interactive file review.
 
-**Key Options:**
-
-*   -d DIRECTORY or --directory DIRECTORY: (Required) Path to the directory to scan.
-*   -m MODEL or --model MODEL: Gemini model (default is gemini-1.5-flash-latest).
-*   -k API_KEY or --api-key API_KEY: Your Google API Key.
-*   -o OUTPUT_FILE_BASE or --output-file-base OUTPUT_FILE_BASE: Base name for report files (e.g., scan_results).
-*   --reports-dir DIR_NAME: Directory to save reports (default is ./secrev_reports).
-*   --include-extensions .ext1,.ext2: Comma-separated extensions/names to *only* include (overrides defaults).
-*   --exclude-extensions .ext1,.ext2: Comma-separated extensions to *add* to exclusion list.
-*   --exclude-files name1,pattern2: Comma-separated names/patterns to *add* to exclusion list.
-*   --chunk-size CHARS: Max characters per chunk sent to AI (default is 200000).
-*   -y or --yes: Skip interactive file review.
+---
 
 ## Interactive File Review
 
-If you do not use the -y flag, secrev will list discovered files:
-*   Enter numbers (e.g., 1 3) to toggle selection.
-*   Type 'all' or 'none' to select/deselect all.
-*   Type 'exclude .ext1 .ext2' to temporarily ignore files with those extensions.
-*   Type 'list' to see current selections.
-*   Type 'done' (or press Enter) to proceed.
-*   Type 'cancel' (or Ctrl+C) to abort.
+If the `-y` flag is not used, SecRev will prompt you to review files interactively:
+
+- Enter numbers (e.g., `1 3`) to toggle file selection.
+- Type `all` or `none` to select/deselect all files.
+- Type `exclude .ext1 .ext2` to temporarily exclude files with specific extensions.
+- Type `list` to view current selections.
+- Type `done` (or press Enter) to proceed.
+- Type `cancel` (or press Ctrl+C) to abort.
+
+---
 
 ## Output
 
-secrev generates two report files (a Markdown file ending in .md and a Text file ending in .txt) in the specified reports directory. These files contain potential vulnerabilities identified by the AI, including details like file path, location, description, impact, and suggested remediation.
+SecRev generates two report files in the specified reports directory:
+
+1. A Markdown file (`.md`)
+2. A plain text file (`.txt`)
+
+These reports include:
+- File path and location of potential vulnerabilities.
+- Description, impact, and suggested remediation.
+
+---
+
+For more details, refer to the [SecRev GitHub Repository](https://github.com/401-Nick/SecRev).
